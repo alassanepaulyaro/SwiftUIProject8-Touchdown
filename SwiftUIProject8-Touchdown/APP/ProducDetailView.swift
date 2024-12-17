@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct ProducDetailView: View {
+    
+    @EnvironmentObject var shop: Shop
 
     var body: some View {
         VStack(
@@ -51,7 +53,7 @@ struct ProducDetailView: View {
                         ScrollView(
                             .vertical, showsIndicators: false,
                             content: {
-                                Text(sampleProduct.description)
+                                Text(shop.selectedProduct?.description ?? sampleProduct.description)
                                     .font(.system(.body, design: .rounded))
                                     .foregroundColor(.gray)
                                     .multilineTextAlignment(.leading)
@@ -78,15 +80,16 @@ struct ProducDetailView: View {
         .ignoresSafeArea(.all, edges: .all)
         .background(
             Color(
-                red: sampleProduct.red,
-                green: sampleProduct.green,
-                blue: sampleProduct.blue
-            ).ignoresSafeArea(.all, edges: .all)
+                red: shop.selectedProduct?.red ?? sampleProduct.red,
+                green: shop.selectedProduct?.green ?? sampleProduct.green,
+                blue: shop.selectedProduct?.blue ?? sampleProduct.blue
+            ).ignoresSafeArea(.all, edges: .all)  
         )
     }
 }
 
 #Preview {
     ProducDetailView()
+        .environmentObject(Shop())
         .background(Color.accentColor)
 }
